@@ -53,15 +53,6 @@ fun CryptoFeedRoute(
         onRefreshCryptoFeed = viewModel::loadCryptoFeed,
         onNavigateToCryptoDetails = onNavigateToCryptoDetails
     )
-
-//    val cryptoViewModel = CryptoFeedViewModel(
-//        cryptoFeedLoader = createRemoteWithLocalCompositeFactory(
-//            remote = LoadCryptoFeedRemoteUseCase(),
-//            local = LoadCryptoFeedLocalUseCase()
-//        )
-//    )
-
-//    cryptoViewModel.loadCryptoFeed()
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)

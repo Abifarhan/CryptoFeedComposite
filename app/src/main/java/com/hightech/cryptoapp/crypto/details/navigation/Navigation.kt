@@ -12,7 +12,8 @@ import com.hightech.cryptoapp.crypto.feed.domain.CryptoFeedItem
 internal const val nameArg = "name"
 const val cryptoDetailsRoute = "crypto_details_route/{$nameArg}"
 
-fun NavController.navigateToCryptoDetails(name: CryptoFeedItem, navOptions: NavOptions? = null) {
+fun NavController.navigateToCryptoDetails(name: CryptoFeedItem,
+                                          navOptions: NavOptions? = null) {
     this.navigate("$cryptoDetailsRoute/${name.coinInfo.name}", navOptions)
 }
 

@@ -1,21 +1,20 @@
 package com.hightech.cryptoapp.crypto.feed.presentation
 
 import android.util.Log
-import android.widget.RemoteViews.RemoteResponse
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.hightech.cryptoapp.composite.CryptoFeedLoaderComposite
+import com.hightech.cryptoapp.composite.CryptoFeedLoaderCacheDecorator
 import com.hightech.cryptoapp.composite.CryptoFeedLoaderFactory
 import com.hightech.cryptoapp.crypto.feed.domain.CryptoFeedItem
 import com.hightech.cryptoapp.crypto.feed.domain.CryptoFeedLoader
 import com.hightech.cryptoapp.crypto.feed.domain.CryptoFeedResult
 import com.hightech.cryptoapp.crypto.feed.datasource.http.usecases.Connectivity
 import com.hightech.cryptoapp.crypto.feed.datasource.http.usecases.InvalidData
-import com.hightech.cryptoapp.crypto.feed.datasource.http.usecases.LocalCryptoFeedLoader
 import com.hightech.cryptoapp.crypto.feed.datasource.http.usecases.LocalCryptoFeedLoaderFactory
+import com.hightech.cryptoapp.main.factories.CryptoFeedLocalInsertFactory
 import com.hightech.cryptoapp.main.factories.RemoteCryptoFeedLoaderFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -120,13 +119,10 @@ class CryptoFeedViewModel constructor(
             initializer {
                 CryptoFeedViewModel(
                     CryptoFeedLoaderFactory.createCompositeFactory(
-                        primary = CryptoFeedLoaderFactory.createCompositeFactory(
-                            primary = CryptoFeedLoaderFactory.createCompositeFactory(
-                                primary = RemoteCryptoFeedLoaderFactory.createRemoteCryptoFeedLoader(),
-                                fallback = LocalCryptoFeedLoaderFactory.createLocalCryptoFeedLoader()),
-                            fallback = LocalCryptoFeedLoaderFactory.createLocalCryptoFeedLoader()
-
-                        ),
+                    primary = CryptoFeedLoaderCacheDecorator(
+                        decorate = RemoteCryptoFeedLoaderFactory.createRemoteCryptoFeedLoader(),
+                        cache = CryptoFeedLocalInsertFactory.createLocalInsertCryptoFeedLoader(),
+                    ),
                         fallback = LocalCryptoFeedLoaderFactory.createLocalCryptoFeedLoader()
                     )
                 )

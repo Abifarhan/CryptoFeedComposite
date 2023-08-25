@@ -1,14 +1,12 @@
 package com.hightech.cryptoapp
 
 import android.app.Application
+import com.hightech.cryptoapp.frameworks.LocalFactory
 
 class Application: Application() {
     override fun onCreate() {
         super.onCreate()
-        instance = this
+        LocalFactory.application = this
     }
 
-    companion object {
-        var instance: com.hightech.cryptoapp.Application? = null
-    }
 }

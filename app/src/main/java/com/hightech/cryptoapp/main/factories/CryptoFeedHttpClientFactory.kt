@@ -17,15 +17,3 @@ class CryptoFeedHttpClientFactory {
     }
 }
 
-
-class CryptoFeedRoomFactory{
-    companion object {
-        fun createCryptoFeedRoomClient(): CryptoFeedDao{
-            return CryptoDatabase.getDatabase(provideApplication()).cryptoFeedDao()
-        }
-
-        private fun provideApplication(): Application{
-            return Application.instance!!
-        }
-    }
-}

@@ -10,3 +10,10 @@ sealed class CryptoFeedResult {
 interface CryptoFeedLoader {
     fun load(): Flow<CryptoFeedResult>
 }
+
+
+interface CryptoFeedCache {
+    suspend fun save(data :List<CryptoFeedItem>)
+}
+
+

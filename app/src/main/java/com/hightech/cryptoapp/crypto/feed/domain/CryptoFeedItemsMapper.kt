@@ -36,6 +36,20 @@ class CryptoFeedItemsMapper {
                 )
             }
         }
+
+
+        fun mapRemoteToLocalForInsert(items: List<CryptoFeedItem>): List<CryptoFeedEntity> {
+            return items.map {cryptoFeedItem ->
+            CryptoFeedEntity(
+                id = cryptoFeedItem.coinInfo.id,
+                name= cryptoFeedItem.coinInfo.name,
+                fullName= cryptoFeedItem.coinInfo.fullName,
+                imageUrl= cryptoFeedItem.coinInfo.imageUrl,
+                price= cryptoFeedItem.raw.usd.price,
+                changePctDay= cryptoFeedItem.raw.usd.changePctDay
+            )
+            }
+        }
         fun mapLocal(items: List<CryptoFeedEntity>): List<CryptoFeedItem> {
             return items.map {
                 CryptoFeedItem(

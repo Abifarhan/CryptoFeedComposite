@@ -1,7 +1,8 @@
 package com.hightech.cryptoapp.crypto.feed.datasource.http.usecases
 
 import android.util.Log
-import com.hightech.cryptoapp.crypto.feed.datasource.db.CryptoFeedDao
+import com.hightech.cryptoapp.crypto.feed.datasource.db.CryptoFeedLocalClient
+import com.hightech.cryptoapp.crypto.feed.datasource.db.LocalClientResult
 import com.hightech.cryptoapp.crypto.feed.domain.CryptoFeedItemsMapper
 import com.hightech.cryptoapp.crypto.feed.domain.CryptoFeedLoader
 import com.hightech.cryptoapp.crypto.feed.domain.CryptoFeedResult
@@ -9,15 +10,13 @@ import com.hightech.cryptoapp.crypto.feed.datasource.http.ConnectivityException
 import com.hightech.cryptoapp.crypto.feed.datasource.http.CryptoFeedHttpClient
 import com.hightech.cryptoapp.crypto.feed.datasource.http.HttpClientResult
 import com.hightech.cryptoapp.crypto.feed.datasource.http.InvalidDataException
-import com.hightech.cryptoapp.main.factories.CryptoFeedRoomFactory
-import kotlinx.coroutines.Dispatchers
+import com.hightech.cryptoapp.main.factories.CryptoFeedDaoFactory
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 
 class RemoteCryptoFeedLoader constructor(
     private val cryptoFeedHttpClient: CryptoFeedHttpClient,
-    private val cryptoFeedDao: CryptoFeedDao
 ): CryptoFeedLoader {
 
 
@@ -29,7 +28,6 @@ class RemoteCryptoFeedLoader constructor(
                     Log.d("TAG", "load: data crypto you get is $cryptoFeed")
                     if (cryptoFeed.isNotEmpty()) {
                         val cryptoFeedRemote = CryptoFeedItemsMapper.map(cryptoFeed)
-                        cryptoFeedDao.insertAll(CryptoFeedItemsMapper.mapRemoteToLocal(cryptoFeed))
 
                         emit(CryptoFeedResult.Success(cryptoFeedRemote))
 
@@ -65,28 +63,31 @@ class LocalCryptoFeedLoaderFactory {
     companion object{
         fun createLocalCryptoFeedLoader(): CryptoFeedLoader{
             return LocalCryptoFeedLoader(
-                CryptoFeedRoomFactory.createCryptoFeedRoomClient()
+               CryptoFeedDaoFactory.createCryptoFeedDao()
             )
         }
     }
 }
+
 class LocalCryptoFeedLoader constructor(
-    private val cryptoFeedDao: CryptoFeedDao
+    private val cryptoFeedLocalClient: CryptoFeedLocalClient
 ): CryptoFeedLoader{
     override fun load(): Flow<CryptoFeedResult> {
         return flow {
-            try {
-                val result = cryptoFeedDao.getAllCryptoFeeds()
-
-                Log.d("TAG", "load: status local data $result")
-                if (result.isNotEmpty()) {
-                    Log.d("TAG", "load: status local data$result")
-                    emit(CryptoFeedResult.Success(CryptoFeedItemsMapper.mapLocal(result)))
+            cryptoFeedLocalClient.getAllCrypto()
+                .catch {
+                    emit(CryptoFeedResult.Failure(it))
+                }.collect {result ->
+                    when (result) {
+                        is LocalClientResult.Success -> {
+                            emit(CryptoFeedResult.Success(CryptoFeedItemsMapper.mapLocal(result.data)))
+                        }
+                        is LocalClientResult.Failure -> {
+                            emit(CryptoFeedResult.Failure(result.throwable))
+                        }
+                    }
                 }
-            } catch (t: Throwable) {
-                emit(CryptoFeedResult.Failure(t))
-            }
-        }.flowOn(Dispatchers.IO)
+        }
     }
 
 
