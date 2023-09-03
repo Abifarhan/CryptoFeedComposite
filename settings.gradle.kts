@@ -14,3 +14,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "CryptoFeed"
 include(":app")
+include(":remote_module")
