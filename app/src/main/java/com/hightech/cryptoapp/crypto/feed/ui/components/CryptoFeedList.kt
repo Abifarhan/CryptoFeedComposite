@@ -25,7 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.hightech.cryptoapp.crypto.feed.domain.CryptoFeedItem
+import com.ourproject.http_module.datasource.http.entity.CryptoFeedItem
 
 @Composable
 fun CryptoFeedList(

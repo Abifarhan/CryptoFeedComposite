@@ -7,7 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.hightech.cryptoapp.crypto.details.CryptoDetailsRoute
-import com.hightech.cryptoapp.crypto.feed.domain.CryptoFeedItem
+import com.ourproject.http_module.datasource.http.entity.CryptoFeedItem
 
 internal const val nameArg = "name"
 const val cryptoDetailsRoute = "crypto_details_route/{$nameArg}"

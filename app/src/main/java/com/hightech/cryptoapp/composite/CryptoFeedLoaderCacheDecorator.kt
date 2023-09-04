@@ -1,8 +1,8 @@
 package com.hightech.cryptoapp.composite
 
-import com.hightech.cryptoapp.crypto.feed.domain.CryptoFeedCache
-import com.hightech.cryptoapp.crypto.feed.domain.CryptoFeedLoader
-import com.hightech.cryptoapp.crypto.feed.domain.CryptoFeedResult
+import com.ourproject.cache_module.datasource.db.CryptoFeedCache
+import com.ourproject.http_module.datasource.http.CryptoFeedLoader
+import com.ourproject.http_module.datasource.http.CryptoFeedResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 

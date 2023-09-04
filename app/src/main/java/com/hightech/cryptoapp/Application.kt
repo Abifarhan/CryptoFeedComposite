@@ -1,7 +1,7 @@
 package com.hightech.cryptoapp
 
 import android.app.Application
-import com.hightech.cryptoapp.frameworks.LocalFactory
+import com.ourproject.cache_module.frameworks.LocalFactory
 
 class Application: Application() {
     override fun onCreate() {

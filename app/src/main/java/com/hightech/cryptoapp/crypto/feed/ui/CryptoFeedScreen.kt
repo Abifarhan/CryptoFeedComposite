@@ -22,32 +22,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-//import com.hightech.cryptoapp.crypto.feed.createRemoteWithLocalCompositeFactory
-import com.hightech.cryptoapp.crypto.feed.domain.CryptoFeedItem
-import com.hightech.cryptoapp.crypto.feed.presentation.CryptoFeedUiState
-import com.hightech.cryptoapp.crypto.feed.presentation.CryptoFeedViewModel
+import com.hightech.cryptoapp.crypto.feed.presentation.CryptoViewModelFactory
 import com.hightech.cryptoapp.crypto.feed.ui.components.CryptoFeedList
 import com.hightech.cryptoapp.theme.Purple40
+import com.ourproject.http_module.datasource.http.entity.CryptoFeedItem
+import com.ourproject.presenter_module.CryptoFeedUiState
+import com.ourproject.presenter_module.CryptoFeedViewModel
 
 @Composable
 fun CryptoFeedRoute(
-    viewModel: CryptoFeedViewModel = viewModel(factory = CryptoFeedViewModel.FACTORY),
+    viewModel: CryptoFeedViewModel = viewModel(factory = CryptoViewModelFactory.FACTORY),
     onNavigateToCryptoDetails: (CryptoFeedItem) -> Unit
 ) {
     val cryptoFeedUiState by viewModel.cryptoFeedUiState.collectAsStateWithLifecycle()
 
     Log.d("loadCryptoFeed", "$cryptoFeedUiState")
 
-    when (cryptoFeedUiState) {
-        is CryptoFeedUiState.HasCryptoFeed -> {
-            val hasCryptoFeedState = cryptoFeedUiState as CryptoFeedUiState.HasCryptoFeed
-            Log.d("TAG", "CryptoFeedRoute: you get the data $hasCryptoFeedState")
-        }
 
-        is CryptoFeedUiState.NoCryptoFeed -> {
-            Log.d("TAG", "CryptoFeedRoute: you get the data error")
-        }
-    }
     CryptoFeedScreen(
         cryptoFeedUiState = cryptoFeedUiState,
         onRefreshCryptoFeed = viewModel::loadCryptoFeed,
