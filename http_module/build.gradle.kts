@@ -49,6 +49,7 @@ android {
 
 dependencies {
 
+    implementation(project(":domain_module"))
     implementation(libs.androidx.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)

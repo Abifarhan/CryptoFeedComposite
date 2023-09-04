@@ -1,6 +1,6 @@
 package com.ourproject.http_module.factories
 
-import com.ourproject.http_module.datasource.http.CryptoFeedLoader
+import com.ourproject.domain_module.domain.CryptoFeedLoader
 import com.ourproject.http_module.datasource.http.usecases.RemoteCryptoFeedLoader
 
 class RemoteCryptoFeedLoaderFactory {

@@ -1,10 +1,10 @@
 package com.ourproject.http_module.datasource.http.mapper
 
+import com.ourproject.domain_module.CoinInfoItem
+import com.ourproject.domain_module.CryptoFeedItem
+import com.ourproject.domain_module.RawItem
+import com.ourproject.domain_module.UsdItem
 import com.ourproject.http_module.datasource.http.dto.RemoteCryptoFeedItem
-import com.ourproject.http_module.datasource.http.entity.CoinInfoItem
-import com.ourproject.http_module.datasource.http.entity.CryptoFeedItem
-import com.ourproject.http_module.datasource.http.entity.RawItem
-import com.ourproject.http_module.datasource.http.entity.UsdItem
 
 class CryptoFeedItemsMapper {
 

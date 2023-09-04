@@ -1,15 +1,14 @@
 package com.ourproject.http_module.datasource.http.usecases
 
 import android.util.Log
+import com.ourproject.domain_module.domain.CryptoFeedLoader
+import com.ourproject.domain_module.domain.CryptoFeedResult
 import com.ourproject.http_module.datasource.http.ConnectivityException
 import com.ourproject.http_module.datasource.http.CryptoFeedHttpClient
 import com.ourproject.http_module.datasource.http.HttpClientResult
 import com.ourproject.http_module.datasource.http.InvalidDataException
-import com.ourproject.http_module.datasource.http.CryptoFeedLoader
-import com.ourproject.http_module.datasource.http.CryptoFeedResult
 import com.ourproject.http_module.datasource.http.mapper.CryptoFeedItemsMapper
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 
 class RemoteCryptoFeedLoader constructor(
