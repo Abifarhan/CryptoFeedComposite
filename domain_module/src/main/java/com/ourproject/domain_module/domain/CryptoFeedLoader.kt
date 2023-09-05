@@ -10,3 +10,6 @@ sealed class CryptoFeedResult {
 interface CryptoFeedLoader {
     fun load(): Flow<CryptoFeedResult>
 }
+
+class InvalidDataException : Throwable()
+class ConnectivityException : Throwable()

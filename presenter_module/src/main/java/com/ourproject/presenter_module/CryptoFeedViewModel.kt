@@ -2,20 +2,12 @@ package com.ourproject.presenter_module
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.ourproject.cache_module.datasource.db.usecase.LocalCryptoFeedLoaderFactory
-import com.ourproject.cache_module.factories.CryptoFeedLocalInsertFactory
-import com.ourproject.composite_module.composite.CryptoFeedLoaderCacheDecorator
-import com.ourproject.composite_module.composite.CryptoFeedLoaderFactory
 import com.ourproject.domain_module.CryptoFeedItem
+import com.ourproject.domain_module.domain.ConnectivityException
 import com.ourproject.domain_module.domain.CryptoFeedLoader
 import com.ourproject.domain_module.domain.CryptoFeedResult
-import com.ourproject.http_module.datasource.http.usecases.Connectivity
-import com.ourproject.http_module.datasource.http.usecases.InvalidData
-import com.ourproject.http_module.factories.RemoteCryptoFeedLoaderFactory
+import com.ourproject.domain_module.domain.InvalidDataException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -101,8 +93,8 @@ class CryptoFeedViewModel constructor(
                             Log.d("loadCryptoFeed", " failure get data $result")
                             it.copy(
                                 failed = when (result.throwable) {
-                                    is Connectivity -> "Connectivity"
-                                    is InvalidData -> "Invalid Data"
+                                    is ConnectivityException -> "Connectivity"
+                                    is InvalidDataException -> "Invalid Data"
                                     else -> "Something Went Wrong"
                                 },
                                 isLoading = false
@@ -114,19 +106,4 @@ class CryptoFeedViewModel constructor(
         }
     }
 
-    companion object {
-        val FACTORY: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                CryptoFeedViewModel(
-                    CryptoFeedLoaderFactory.createCompositeFactory(
-                        primary = CryptoFeedLoaderCacheDecorator(
-                            decorate = RemoteCryptoFeedLoaderFactory.createRemoteCryptoFeedLoader(),
-                            cache = CryptoFeedLocalInsertFactory.createLocalInsertCryptoFeedLoader(),
-                        ),
-                        fallback = LocalCryptoFeedLoaderFactory.createLocalCryptoFeedLoader()
-                    )
-                )
-            }
-        }
-    }
 }

@@ -49,7 +49,8 @@ android {
 
 dependencies {
 
-
+//    implementation(project(":cache_module"))
+//    implementation(project(":http_module"))
     implementation(libs.androidx.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)

@@ -1,4 +1,4 @@
-package com.ourproject.composite_module.composite
+package com.hightech.cryptoapp.composite
 
 import com.ourproject.domain_module.domain.CryptoFeedLoader
 import com.ourproject.domain_module.domain.CryptoFeedResult
