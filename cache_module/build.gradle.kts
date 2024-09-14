@@ -10,11 +10,8 @@ android {
     compileSdk = 33
 
     defaultConfig {
-//        applicationId = "com.ourproject.cache_module"
         minSdk = 24
         targetSdk = 33
-//        versionCode = 1
-//        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
